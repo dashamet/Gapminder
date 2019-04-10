@@ -1,0 +1,38 @@
+---
+title: "GDP Per Capita vs. Life Expectancy Around the World"
+author: "Dasha Metropolitansky"
+date: "April 10, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(gapminder)
+library(tidyverse)
+library(anchors)
+library(gganimate)
+library(gifski)
+library(png)
+```
+
+```{r}
+gapminder %>%
+  mutate(continent = fct_collapse(continent, Asia = c("Asia", "Oceania"))) %>%
+  filter(continent %in% c("Americas", "Africa", "Asia")) %>% 
+  mutate(continent = fct_relevel(continent, "Americas", "Africa", "Asia")) %>%
+  ggplot(aes(x = gdpPercap, y = lifeExp, size = pop, color = country)) + 
+  facet_grid(~continent) + 
+  geom_point(alpha = 0.5, show.legend = FALSE) +
+  scale_color_manual(values = country_colors) +
+  scale_x_log10(breaks = c(1000, 10000),
+                labels = c("$1,000", "$10,000")) + 
+  labs(x = "GDP Per Capita",
+       y = "Life Expectancy",
+    caption = "Source: gapminder package") +
+  transition_time(year) + 
+  ease_aes() +
+  ggtitle("The World Gets Better Every Year: {frame_time}") + 
+  theme(plot.title = element_text(size = 18),
+        axis.title.x = element_text(size = 25),
+        axis.title.y = element_text(size = 25))
+```
