@@ -1,7 +1,7 @@
 ---
-title: "GDP Per Capita vs. Life Expectancy Around the World"
+title: "GDP Per Capita vs. Life Expectancy"
 author: "Dasha Metropolitansky"
-date: "April 10, 2019"
+date: "March 5, 2019"
 output: html_document
 ---
 
@@ -15,7 +15,7 @@ library(gifski)
 library(png)
 ```
 
-```{r}
+```{r echo = FALSE}
 gapminder %>%
   mutate(continent = fct_collapse(continent, Asia = c("Asia", "Oceania"))) %>%
   filter(continent %in% c("Americas", "Africa", "Asia")) %>% 
@@ -33,6 +33,6 @@ gapminder %>%
   ease_aes() +
   ggtitle("The World Gets Better Every Year: {frame_time}") + 
   theme(plot.title = element_text(size = 18),
-        axis.title.x = element_text(size = 25),
-        axis.title.y = element_text(size = 25))
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14))
 ```
